@@ -14,13 +14,21 @@
     <script>
         window.fbAsyncInit = function() {
           FB.init({
-            appId            : '702484711710125',
-            autoLogAppEvents : true,
             xfbml            : true,
-            version          : 'v17.0'
+            version          : 'v9.0'
           });
         };
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if(d.getElementByID(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/v1_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
       </script>
-      <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+      <div class = "fb-customerchat" attribution = "setup_tool" page_id = "100095427667041" theme_color="#0A7CFF"
+            logged_in_greeting = "Xin chào. Mình có thể giúp gì được cho bạn?"
+            logged_out_greeting = "Xin chào. Mình có thể giúp gì được cho bạn?">
+      </div>
 </body>
 </html>
