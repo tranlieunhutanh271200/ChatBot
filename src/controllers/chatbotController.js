@@ -1,10 +1,10 @@
-
+require("dotenv").config();
 import request from "request";
 import  chatbotService from '../services/chatbotService'
 
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-request('dotenv').config();
+
 let getHomePage = (req, res) => {
     return res.render("homepage.ejs");
 };
