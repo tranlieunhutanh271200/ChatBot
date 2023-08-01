@@ -4,6 +4,7 @@ import request from "request";
 
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
 let callSendAPI = (sender_psid, response) => {
     // Construct the message body
     let request_body = {
@@ -27,17 +28,36 @@ let callSendAPI = (sender_psid, response) => {
         }
     });
 }
-
 let handleGetStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let response = { "text": "Chào mừng bạn đến với Nhựt Anh channel" }
+            let username = await getUserName(sender_psid);
+            let response = { "text": `Chào mừng bạn ${username} đến với Nhựt Anh channel` };
             await callSendAPI(sender_psid, response);
             resolve('done');
         } catch (e){
             reject(e);
         }
     })
+}
+let getUserName = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        request({
+            "uri": `https://graph.facebook.com/$${sender_psid}?fields=first_name,last_name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`,
+            "method": "GET"
+        }, (err, res, body) => {
+            if (!err) {
+                body = JSON.parse(body);
+                let username = `${response.first_name} ${response.last_name}`
+                resolve(username);
+            } else {
+                console.error("Unable to send message:" + err);
+                reject(err);
+            }
+        });
+        return username;
+    });
+  
 }
 
 module.exports = {
