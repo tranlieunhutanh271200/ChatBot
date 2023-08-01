@@ -5,7 +5,7 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let getHomePage = (req, res) => {
-    return res.send("Hello");
+    return res.render("homepage.ejs");
 };
 
 let getWebhook = (req, res) => {
