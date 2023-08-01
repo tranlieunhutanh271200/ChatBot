@@ -55,7 +55,6 @@ let getUserName = (sender_psid) => {
                 reject(err);
             }
         });
-        return username;
     });
   
 }
