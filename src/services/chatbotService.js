@@ -33,7 +33,7 @@ let handleGetStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let username = await getUserName(sender_psid);
-            let response = { "text": `Chào mừng bạn ${username} đến với Nhựt Anh channel` };
+            let response = { "text": `Xin chào ${username} đến với Nhựt Anh channel` };
             let response2 = sendGetStartedTemplate();
             await callSendAPI(sender_psid, response);
             await callSendAPI(sender_psid, response2);
@@ -51,7 +51,7 @@ let sendGetStartedTemplate = () => {
             "payload": {
                 "template_type": "generic",
                 "elements": [{
-                    "title": "Xin chào bạn đến với Nhựt Anh chanel?",
+                    "title": "Nhựt Anh channel kính chào!",
                     "subtitle": "Dưới đây là các lựa chọn của bạn",
                     "image_url": IMAGE_GET_STATED,
                     "buttons": [

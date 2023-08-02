@@ -1,6 +1,6 @@
 require("dotenv").config();
 import request from "request";
-import  chatbotService from '../services/chatbotService'
+import chatbotService from '../services/chatbotService'
 
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -123,7 +123,7 @@ async function handlePostback(sender_psid, received_postback) {
         default:
             response = { "text": `opp! ${payload}` }
     }
-    
+
     // Send the message to acknowledge the postback
     // callSendAPI(sender_psid, response);
 }
@@ -173,12 +173,56 @@ let setupProfile = async (req, res) => {
             console.error("Unable to send message:" + err);
         }
     });
-    return res.send("");
+    return res.send("message sent!");
+}
+
+let setupPersistentMenu = async (req, res) => {
+    let request_body = {
+        "persistent_menu": [
+            {
+                "locale": "default",
+                "composer_input_disabled": false,
+                "call_to_actions": [
+                    {
+                        "type": "web_url",
+                        "title": "Youtube channel Nhựt Anh",
+                        "url": "https://www.originalcoastclothing.com/",
+                        "webview_height_ratio": "full"
+                    },
+                    {
+                        "type": "web_url",
+                        "title": "Outfit suggestions",
+                        "url": "https://www.originalcoastclothing.com/",
+                        "webview_height_ratio": "full"
+                    },
+                    {
+                        "type": "postback",
+                        "title": "Khởi động lại bot",
+                        "payload": "RESTART_BOT"
+                    }
+                ]
+            }
+        ]
+    }
+    await request({
+        "uri": `https://graph.facebook.com/v17.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+    return res.send("message sent!");
 }
 
 module.exports = {
     getHomePage: getHomePage,
     getWebhook: getWebhook,
     postWebhook: postWebhook,
-    setupProfile: setupProfile
+    setupProfile: setupProfile,
+    setupPersistentMenu: setupPersistentMenu
 }
