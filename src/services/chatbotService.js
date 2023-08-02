@@ -4,6 +4,7 @@ import request from "request";
 
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const IMAGE_GET_STATED = process.env.IMAGE_GET_STATED;
 
 let callSendAPI = (sender_psid, response) => {
     // Construct the message body
@@ -33,12 +34,43 @@ let handleGetStarted = (sender_psid) => {
         try {
             let username = await getUserName(sender_psid);
             let response = { "text": `Chào mừng bạn ${username} đến với Nhựt Anh channel` };
+            let response2 = sendGetStartedTemplate();
             await callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, response2);
             resolve('done');
         } catch (e){
             reject(e);
         }
     })
+}
+
+let sendGetStartedTemplate = () => {
+    let response = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [{
+                    "title": "Xin chào bạn đến với Nhựt Anh chanel?",
+                    "subtitle": "Dưới đây là các lựa chọn của bạn",
+                    "image_url": IMAGE_GET_STATED,
+                    "buttons": [
+                        {
+                            "type": "postback",
+                            "title": "PROFILE",
+                            "payload": "PROFILE",
+                        },
+                        {
+                            "type": "postback",
+                            "title": "FACEBOOK",
+                            "payload": "FACEBOOK",
+                        }
+                    ],
+                }]
+            }
+        }
+    }
+    return response;
 }
 let getUserName = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
